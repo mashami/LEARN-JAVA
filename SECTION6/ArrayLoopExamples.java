@@ -50,10 +50,10 @@ public class ArrayLoopExamples {
     int targetValue = 4;
     // TODO: Use a for loop to find the index of targetValue in the data array
 
-    for (int i = 0; i < data.length; i++) {
-      if (data[i] == targetValue) {
-        System.out.println(i);
-      }
-    }
+    // for (int i = 0; i < data.length; i++) {
+    //   if (data[i] == targetValue) {
+    //     System.out.println(i);
+    //   }
+    // }
   }
 }
