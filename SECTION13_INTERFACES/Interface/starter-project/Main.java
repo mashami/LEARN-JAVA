@@ -5,11 +5,16 @@ import pojo.Account;
 import pojo.Checking;
 import pojo.Credit;
 import repository.AccountRepository;
+import service.CheckingService;
+import service.CreditService;
 
 public class Main {
 
   public static void main(String[] args) {
     AccountRepository repository = new AccountRepository();
+    CheckingService checkingService = new CheckingService(repository);
+    CreditService creditService = new CreditService(repository);
+
     // Assume these were obtained from user input.
     List<Account> accounts = Arrays.asList(
       new Checking("A1234B", new BigDecimal("500.00")),
@@ -21,14 +26,24 @@ public class Main {
 
     accounts.forEach(
       account -> {
-        repository.createAccount(account);
+        if (account instanceof Checking) {
+          checkingService.createAccount((Checking) account);
+        } else {
+          creditService.createAccount((Credit) account);
+        }
       }
     );
- 
+
     // Account account = repository.retrieveAccount("A1534B");
     Checking checking = (Checking) repository.retrieveAccount("A1534B");
     checking.setBalance(checking.getBalance().add(new BigDecimal("100")));
     repository.updateAccount(checking);
     repository.deleteAccount("G4567H");
+
+    // CheckingService checkingService = new CheckingService(repository);
+    // checkingService.deposit("1", new BigDecimal("100"));
+    checkingService.withdraw("1", new BigDecimal("50"));
+    creditService.deposit("1", new BigDecimal("100"));
+    creditService.withdraw("1", new BigDecimal("50"));
   }
 }
